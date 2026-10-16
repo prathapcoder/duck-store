@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/duckstore}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER:duckstore}
+    password: ${DB_PASSWORD:duckstore}

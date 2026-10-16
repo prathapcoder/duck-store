@@ -1,0 +1,13 @@
+# build output
+backend/target/
+frontend/node_modules/
+frontend/dist/
+# editor and OS state
+.idea/
+.vscode/
+*.iml
+.DS_Store
+# local configuration and secrets
+.env
+.env.*
+

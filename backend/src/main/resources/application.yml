@@ -1,0 +1,39 @@
+# Default: an embedded in-memory H2 database (no datasource URL is set, so Spring Boot starts one).
+# Data lives only while the application runs.
+#
+# Switching database is configuration only, no code change:
+#   SPRING_PROFILES_ACTIVE=postgres        (see application-postgres.yml), or
+#   SPRING_DATASOURCE_URL / _USERNAME / _PASSWORD for any other database whose JDBC driver is on the classpath.
+spring:
+  application:
+    name: duck-store
+  # ---> ADD THIS BLOCK TO PERSIST H2 DATA <---
+  datasource:
+    url: jdbc:h2:file:${user.home}/.duckstore/data;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  
+  # ---> ACCESS THE H2 CONSOLE <---
+  h2:
+    console:
+      enabled: true
+  jpa:
+    #database-platform: org.hibernate.dialect.H2Dialect # Explicitly forces the H2 Dialect
+    hibernate:
+      ddl-auto: update             # creates the tables when missing, never drops data
+    open-in-view: false
+  jackson:
+    deserialization:
+      accept-float-as-int: false   # reject 1.5 for an integer field instead of silently truncating it
+  mvc:
+    problemdetails:
+      enabled: true
+server:
+  port: ${PORT:8080}
+duckstore:
+  cors-origin: ${CORS_ORIGIN:http://localhost:5173}
+  pricing:
+    percentage-base: RUNNING_TOTAL   # or SUBTOTAL, see README "Decisions"
+  store:
+    enforce-stock: false             # true: an order must fit inside one price lot
